@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">LivingUnlock</string>
+    <string name="title_paired_pcs">已配对电脑</string>
+    <string name="btn_scan_qr">扫码绑定新电脑</string>
+    <string name="btn_mock_unlock">模拟解锁提示</string>
+    <string name="btn_unpair">解除绑定</string>
+    <string name="banner_dev_mode">开发 / 模拟模式：真实电脑解锁已禁用。</string>
+    <string name="status_unpaired">暂无配对电脑。点击“扫码绑定新电脑”与您的电脑配对。</string>
+    <string name="biometric_title">LivingUnlock 解锁</string>
+    <string name="biometric_subtitle">确认电脑解锁</string>
+    <string name="biometric_description">进行生物识别验证以解锁已配对的电脑</string>
+    <string name="biometric_negative">取消</string>
+    <string name="status_diagnostics">状态与诊断</string>
+    <string name="status_ready">LivingUnlock 就绪</string>
+    <string name="placeholder_pc_name">配对电脑</string>
+    <string name="placeholder_pc_details">ID 与蓝牙地址</string>
+    <string name="pc_details_format">ID: %1$s | MAC: %2$s</string>
+    <string name="status_log_line_format">%1$s\n&gt; %2$s</string>
+
+    <!-- Bluetooth Unlock Listening Switch -->
+    <string name="switch_enable_listening">启用蓝牙解锁监听</string>
+    <string name="switch_enable_listening_desc">在后台连接配对电脑，锁屏时可接收解锁请求</string>
+
+    <!-- In-App Downgrade Notice -->
+    <string name="notice_notification_denied">通知权限未开启，无法弹出横幅通知；请在系统设置中开启通知权限，或保持应用在前台使用。</string>
+    <string name="notice_no_paired_pcs">暂无已配对电脑，请先扫描配对二维码。</string>
+    <string name="notice_bluetooth_disabled">蓝牙未开启，请先开启系统蓝牙。</string>
+
+    <!-- Unlock Request Card & Buttons -->
+    <string name="unlock_request_card_title">%1$s 请求解锁</string>
+    <string name="unlock_request_card_user">登录用户：%1$s</string>
+    <string name="btn_unlock">解锁</string>
+    <string name="btn_cancel">取消</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_service_name">蓝牙解锁监听服务</string>
+    <string name="notification_channel_service_desc">在后台连接配对电脑以接收解锁请求</string>
+    <string name="notification_service_title">Living正在搜索信号</string>
+    <string name="notification_service_text">Living正在等待电脑的解锁配对并等着帮你输入密码</string>
+    <string name="living_unlock_screen_title">Living正在尝试解锁电脑</string>
+    <string name="living_unlock_screen_subtitle">连上你电脑了哦~按一下指纹就给你打开~</string>
+    <string name="notification_channel_request_name">电脑解锁请求</string>
+    <string name="notification_channel_request_desc">配对电脑锁屏时的高优先级解锁请求</string>
+    <string name="notification_request_title">LivingUnlock 解锁请求</string>
+    <string name="notification_request_text">%1$s 请求解锁</string>
+    <string name="notification_action_unlock">解锁</string>
+    <string name="notification_action_cancel">取消</string>
+
+    <!-- Unlock Status Results -->
+    <string name="status_unlock_accepted">电脑已接受解锁请求</string>
+    <string name="status_unlock_rejected">电脑拒绝解锁：%1$s</string>
+    <string name="status_unlock_error">电脑解锁错误：%1$s</string>
+    <string name="status_unlock_timeout">解锁请求超时已取消</string>
+    <string name="status_unlock_cancelled">解锁请求已取消</string>
+    <string name="status_unlock_waiting_result">正在等待电脑验证解锁响应...</string>
+
+    <!-- Scanner -->
+    <string name="scanner_title">扫码绑定</string>
+    <string name="scanner_prompt">请将电脑端显示的配对二维码放入取景框内</string>
+    <string name="scanner_hint">识别成功后将自动建立近场安全通道</string>
+    <string name="scanner_torch_on">开启手电筒</string>
+    <string name="scanner_torch_off">关闭手电筒</string>
+</resources>

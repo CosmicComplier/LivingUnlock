@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Flat system icon avoids applying launcher adaptive-icon insets a second time. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/icon_background" />
+    <item>
+        <bitmap android:src="@mipmap/ic_system_character_art" android:gravity="fill" />
+    </item>
+</layer-list>

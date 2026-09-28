@@ -1,0 +1,4 @@
+LIBRARY WindowsLockPin
+EXPORTS
+    DllGetClassObject PRIVATE
+    DllCanUnloadNow PRIVATE

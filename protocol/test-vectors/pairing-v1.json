@@ -1,0 +1,22 @@
+{
+  "description": "WindowsLockPin Protocol v1 cross-language golden test vector for pairing derivation and frames",
+  "version": 1,
+  "inputs": {
+    "pc_id": "0123456789abcdef0123456789abcdef",
+    "device_id": "test-installation-device-id-001",
+    "device_name": "Pixel 8 Pro",
+    "request_id_hex": "0000000012345678",
+    "pair_token_hex": "4242424242424242424242424242424242424242424242424242424242424242",
+    "pair_token_b64url": "QkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkI",
+    "client_public_key_hex": "046b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c2964fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5",
+    "server_public_key_hex": "04ff8fd466638dd50665c4fe222678b2e9084e9a51820b460476e96d9fefd788103bd828fb4d9d892480c94814cbe8d901365bfc87d1241007daa66071f40a2dbc"
+  },
+  "intermediate_values": {
+    "pairing_salt_hex": "b01c84e59e9003f1a55807e7f3b496e4b05b4567f7c9380d97e36ba20062f34b",
+    "k_pair_hex": "abd3f5110775c9c8eb7fe34b83755fe3dcdf7d9b177e3bb9f0ccc278d3c992ff",
+    "confirmation_transcript_hex": "57534c502d56312d504149522d434f4e4649524d0000203031323334353637383961626364656630313233343536373839616263646566001f746573742d696e7374616c6c6174696f6e2d6465766963652d69642d3030310041046b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c2964fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5004104ff8fd466638dd50665c4fe222678b2e9084e9a51820b460476e96d9fefd788103bd828fb4d9d892480c94814cbe8d901365bfc87d1241007daa66071f40a2dbc"
+  },
+  "expected_outputs": {
+    "confirmation_tag_hex": "987910675225b4d2dea78c530350c32cbb53a99c8c06f9f71426c7103cea7c6b"
+  }
+}
