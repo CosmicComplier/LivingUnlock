@@ -31,7 +31,6 @@ LivingUnlock 是一套实验性的 Windows 11 本地解锁方案，由 Windows C
 - 后台蓝牙监听、HyperOS/Android 浮动通知及应用内解锁申请页。
 - 点击已绑定设备查看浮动详情窗口，可设置昵称；昵称在界面中以 `昵称*` 显示。
 - 查看最近同步的系统、CPU、GPU、物理内存、蓝牙 MAC、连接方式、启动时间和可选登录位置快照。
-- 三种离线加密彩蛋二维码：AES-256-GCM、ChaCha20-Poly1305，以及 Argon2id + AES-256-GCM 口令模式。
 - Android Manifest 不声明 `INTERNET` 权限。
 
 ## 安全模型
@@ -41,10 +40,9 @@ LivingUnlock 是一套实验性的 Windows 11 本地解锁方案，由 Windows C
 - 手机配对记录使用 Android Keystore 加密；私钥配置为每次使用均要求生物识别。
 - 配对二维码包含随机令牌和 180 秒有效期；协议字段有长度上限并采用严格解析。
 - 设备详情使用配对密钥派生出的独立 AES-GCM 密钥加密，不参与登录认证。
-- 普通彩蛋模式使用应用内置的独立娱乐密钥，能隐藏明文但不能抵御 APK 逆向；私密内容应使用口令模式。
 - 管理员和 `SYSTEM` 位于 Windows 本机信任边界内。本项目不提供与 Windows Hello 硬件密钥相同的保护等级。
 
-协议说明见 [protocol/spec-v1.md](protocol/spec-v1.md)，彩蛋、详情和位置行为见 [docs/EGGS_AND_DEVICE_DETAILS.md](docs/EGGS_AND_DEVICE_DETAILS.md)。
+协议说明见 [protocol/spec-v1.md](protocol/spec-v1.md)。
 
 ## 目录结构
 
@@ -124,22 +122,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\Install.ps1
 
 位置记录默认关闭。启用后，Windows 会请求位置权限并为当前用户创建登录启动项；每次登录只采集一次，失败时显示“未记录”，不会持续跟踪。
 
-## 彩蛋二维码
-
-将正文保存为 UTF-8 文本后，可以离线生成三种彩蛋二维码：
-
-```powershell
-$env:JAVA_HOME='C:\Program Files\Java\jdk-17'
-.\tools\New-EggQr.ps1 -Mode AES -TextFile .\message.txt -OutputFile .\egg-aes.svg
-.\tools\New-EggQr.ps1 -Mode ChaCha20 -TextFile .\message.txt -OutputFile .\egg-chacha.svg
-.\tools\New-EggQr.ps1 -Mode Password -TextFile .\message.txt -OutputFile .\egg-password.svg
-```
-
-口令模式会在控制台中隐藏输入。普通二维码软件仍能读取密文，但只有支持该格式且拥有相应密钥或口令的 LivingUnlock 客户端能显示正文。
-
 ## 验证范围
 
-当前仓库包含协议编码、TOTP、限流、防重放、DPAPI 保险库、RFCOMM、P-256 签名、彩蛋加密和设备信息封装测试。历史实机验证覆盖过目标 Windows 11 设备上的 TOTP 登录、Android 蓝牙挑战、生物识别和原生 PIN 回退。
+当前仓库包含协议编码、TOTP、限流、防重放、DPAPI 保险库、RFCOMM、P-256 签名和设备信息封装测试。历史实机验证覆盖过目标 Windows 11 设备上的 TOTP 登录、Android 蓝牙挑战、生物识别和原生 PIN 回退。
 
 实际锁屏登录、重启后登录、不同 Windows 构建、多账户、不同蓝牙适配器和设备厂商仍需分别人工验收。编译或单元测试通过不等于能够安全登录。
 

@@ -62,10 +62,15 @@ S-1-5-*.lock
 /artifacts/
 /.playwright-cli/
 /output/playwright/
+/output/eggs/
 /tools/deploy-dll.cmd
 /tools/read-provider-log.cmd
 /tools/Clean-ApprovedBuildArtifacts.ps1
 /tools/Set-PulseUnlockFirewall.ps1
+/tools/EggQrGenerator.ps1
+/tools/EggQrGenerator.cmd
+/tools/New-EggQr.ps1
+/docs/EGGS_AND_DEVICE_DETAILS.md
 
 # Secrets and signing material
 .env
