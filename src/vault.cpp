@@ -306,31 +306,35 @@ bool LoadEnrolledCredentials(const std::wstring& sid, Record& output) {
                 reinterpret_cast<LPBYTE>(profileDir), &dataSize) == ERROR_SUCCESS) {
                 wchar_t expandedDir[MAX_PATH]{};
                 if (ExpandEnvironmentStringsW(profileDir, expandedDir, MAX_PATH) > 0) {
-                    std::wstring fallbackPath = std::wstring(expandedDir) + L"\\AppData\\Local\\WindowsLockPin\\" + sid + L".bin";
-                    Handle file(CreateFileW(fallbackPath.c_str(), GENERIC_READ | READ_CONTROL, FILE_SHARE_READ,
-                        nullptr, OPEN_EXISTING, FILE_FLAG_OPEN_REPARSE_POINT, nullptr));
-                    if (file.value != INVALID_HANDLE_VALUE) {
+                    // The client stages phone credentials as <sid>.cred in the per-user
+                    // vault; keep the legacy .bin fallback for older installations. A
+                    // .cred record must never be enrolled as a TOTP secret (its secret
+                    // is empty), so only the .bin candidate promotes into ProgramData.
+                    struct FallbackCandidate { const wchar_t* extension; bool enroll; };
+                    const FallbackCandidate candidates[] = {{L".cred", false}, {L".bin", true}};
+                    for (const auto& candidate : candidates) {
+                        std::wstring fallbackPath = std::wstring(expandedDir) + L"\\AppData\\Local\\WindowsLockPin\\" + sid + candidate.extension;
+                        Handle file(CreateFileW(fallbackPath.c_str(), GENERIC_READ | READ_CONTROL, FILE_SHARE_READ,
+                            nullptr, OPEN_EXISTING, FILE_FLAG_OPEN_REPARSE_POINT, nullptr));
+                        if (file.value == INVALID_HANDLE_VALUE) continue;
                         LARGE_INTEGER size{};
-                        if (GetFileSizeEx(file.value, &size) && size.QuadPart > 0 && size.QuadPart < 65536) {
-                            std::vector<BYTE> encrypted(static_cast<std::size_t>(size.QuadPart));
-                            DWORD read = 0;
-                            if (ReadFile(file.value, encrypted.data(), static_cast<DWORD>(encrypted.size()), &read, nullptr) &&
-                                read == encrypted.size()) {
-                                DATA_BLOB input{read, encrypted.data()};
-                                Plaintext plain;
-                                if (CryptUnprotectData(&input, nullptr, nullptr, nullptr, nullptr,
-                                    CRYPTPROTECT_UI_FORBIDDEN, &plain.value) &&
-                                    plain.value.cbData == sizeof(Record)) {
-                                    Record record;
-                                    memcpy(&record, plain.value.pbData, sizeof(record));
-                                    if (record.magic == 0x314b504c && record.version == 1 && sid == record.sid) {
-                                        memcpy(&output, &record, sizeof(record));
-                                        try { Enroll(record); } catch (...) {}
-                                        RegCloseKey(hKey);
-                                        return true;
-                                    }
-                                }
-                            }
+                        if (!GetFileSizeEx(file.value, &size) || size.QuadPart <= 0 || size.QuadPart >= 65536) continue;
+                        std::vector<BYTE> encrypted(static_cast<std::size_t>(size.QuadPart));
+                        DWORD read = 0;
+                        if (!ReadFile(file.value, encrypted.data(), static_cast<DWORD>(encrypted.size()), &read, nullptr) ||
+                            read != encrypted.size()) continue;
+                        DATA_BLOB input{read, encrypted.data()};
+                        Plaintext plain;
+                        if (!CryptUnprotectData(&input, nullptr, nullptr, nullptr, nullptr,
+                            CRYPTPROTECT_UI_FORBIDDEN, &plain.value) ||
+                            plain.value.cbData != sizeof(Record)) continue;
+                        Record record;
+                        memcpy(&record, plain.value.pbData, sizeof(record));
+                        if (record.magic == 0x314b504c && record.version == 1 && sid == record.sid) {
+                            memcpy(&output, &record, sizeof(record));
+                            if (candidate.enroll) { try { Enroll(record); } catch (...) {} }
+                            RegCloseKey(hKey);
+                            return true;
                         }
                     }
                 }
