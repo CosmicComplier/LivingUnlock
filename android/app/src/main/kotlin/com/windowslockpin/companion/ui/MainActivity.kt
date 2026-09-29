@@ -87,6 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        eggPayload = savedInstanceState?.getString("scan_result")?.take(2401)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.statusBarColor = android.graphics.Color.TRANSPARENT
@@ -210,6 +211,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         handleIncomingIntent(intent)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        // Save only the encrypted scan result, never the password or decrypted content.
+        outState.putString("scan_result", eggPayload)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onResume() {

@@ -27,7 +27,8 @@ tasks.register<JavaExec>("generateEgg") {
     classpath = sourceSets.main.get().runtimeClasspath
     mainClass.set("com.windowslockpin.companion.core.egg.EggQrTool")
     args(providers.gradleProperty("eggMode").getOrElse("A7"),
-        providers.gradleProperty("eggText").getOrElse(""),
+        providers.gradleProperty("eggType").getOrElse("TEXT"),
+        providers.gradleProperty("eggInput").orElse(providers.gradleProperty("eggText")).getOrElse(""),
         providers.gradleProperty("eggOutput").getOrElse(""))
 }
 

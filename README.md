@@ -31,7 +31,6 @@ LivingUnlock 是一套实验性的 Windows 11 本地解锁方案，由 Windows C
 - 后台蓝牙监听、HyperOS/Android 浮动通知及应用内解锁申请页。
 - 点击已绑定设备查看浮动详情窗口，可设置昵称；昵称在界面中以 `昵称*` 显示。
 - 查看最近同步的系统、CPU、GPU、物理内存、蓝牙 MAC、连接方式、启动时间和可选登录位置快照。
-- Android Manifest 不声明 `INTERNET` 权限。
 
 ## 安全模型
 
@@ -90,6 +89,9 @@ dotnet restore .\windows\desktop\LivingUnlock.Windows.csproj
 dotnet build .\windows\desktop\LivingUnlock.Windows.csproj -c Debug -p:Platform=x64
 ```
 
+Windows 完整安装包可使用 `tools/Build-WindowsRelease.ps1` 构建，需要 .NET 8 SDK、C++ Build Tools 和 Inno Setup 6。
+脚本全量重编译登录组件、配对工具和 WinUI 客户端，并将自包含运行时一起打包到 `dist/`，不会安装或注册登录组件。
+
 ### Android
 
 要求：JDK 17 或更高版本、Android SDK Platform 34。将 SDK 路径写入本机的 `android\local.properties`，该文件不会提交。
@@ -100,6 +102,14 @@ Set-Location .\android
 ```
 
 调试 APK 生成在 `android\app\build\outputs\apk\debug\app-debug.apk`。
+
+发行构建使用 `:app:assembleCompact`，启用代码和资源裁剪。先在本机创建
+`android/release-signing.properties`，填写 `storeFile`（相对 android 目录）、
+`storePassword`、`keyAlias`、`keyPassword`，并备份对应签名密钥。配置和私钥均不提交到 Git。
+发行 APK 位于 `android/app/build/outputs/apk/compact/app-compact.apk`。
+
+正式包名为 `com.windowslockpin.companion`，Debug 包名为 `com.windowslockpin.companion.debug`。
+两者可以共存，但不共享配对数据；从 Debug 转正式版需要重新配对，并关闭旧版监听，避免重复响应。
 
 ## 安装与使用
 
@@ -131,7 +141,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\Install.ps1
 ## 项目状态
 
 - 支持平台：Windows 11 x64；Android 9（API 28）及以上。
-- 当前 Android 版本：`0.1.1`。
-- 当前 Windows 安装器版本：`0.2.0`。
-- 发布二进制未签名，不在仓库中提交 APK、EXE、DLL 或安装包。
+- 当前 Android 和 Windows 安装器版本：`0.2.1`。
+- Android Compact 使用独立发行密钥签名；Windows 安装包尚无 Authenticode 签名。
+- 安装包通过 GitHub Releases 发布，不在源码仓库中提交 APK、EXE、DLL。
 - 当前仓库未声明开源许可证；第三方组件许可证见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

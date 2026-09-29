@@ -1,7 +1,19 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+}
+
+val releaseSigningFile = rootProject.file("release-signing.properties")
+val releaseSigning = Properties().apply {
+    if (releaseSigningFile.exists()) releaseSigningFile.inputStream().use { load(it) }
+}
+if (!releaseSigningFile.exists() && gradle.startParameter.taskNames.any {
+    it.contains("Compact", ignoreCase = true) || it.contains("Release", ignoreCase = true)
+}) {
+    error("Release signing configuration is missing: android/release-signing.properties")
 }
 
 android {
@@ -12,15 +24,27 @@ android {
         applicationId = "com.windowslockpin.companion"
         minSdk = 28
         targetSdk = 34
-        versionCode = 2
-        versionName = "0.1.1"
+        versionCode = 3
+        versionName = "0.2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("publishing") {
+            if (releaseSigningFile.exists()) {
+                storeFile = rootProject.file(releaseSigning.getProperty("storeFile"))
+                storePassword = releaseSigning.getProperty("storePassword")
+                keyAlias = releaseSigning.getProperty("keyAlias")
+                keyPassword = releaseSigning.getProperty("keyPassword")
+            }
+        }
+    }
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("publishing")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -28,6 +52,11 @@ android {
         }
         debug {
             applicationIdSuffix = ".debug"
+        }
+        // Distribution build: official application ID and a persistent release certificate.
+        create("compact") {
+            initWith(getByName("release"))
+            matchingFallbacks += listOf("release")
         }
     }
 

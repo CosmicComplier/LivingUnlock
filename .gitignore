@@ -84,6 +84,8 @@ S-1-5-*.lock
 *.key
 *.pem
 keystore.properties
+/android/release-signing.properties
+/android/signing/
 
 # Local design exports and abandoned generated UI copies
 /design/generated/

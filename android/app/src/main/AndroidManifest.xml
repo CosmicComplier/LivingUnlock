@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Explicitly NO internet permission in Phase 1 -->
-    <!-- DO NOT add android.permission.INTERNET -->
+    <!-- Used only to load HTTPS image/video URLs explicitly scanned by the user. -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Bluetooth permissions for RFCOMM transport -->
     <uses-permission
@@ -62,6 +62,7 @@
 
         <activity
             android:name=".ui.MainActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize"
             android:icon="@mipmap/ic_launcher"
             android:exported="true">
             <intent-filter>

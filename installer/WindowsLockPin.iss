@@ -1,5 +1,5 @@
 #define MyAppName "LivingUnlock"
-#define MyAppVersion "0.2.0"
+#define MyAppVersion "0.2.1"
 #define MyAppPublisher "LivingUnlock"
 
 [Setup]
@@ -13,7 +13,7 @@ DefaultGroupName=LivingUnlock
 DisableDirPage=yes
 DisableProgramGroupPage=yes
 DisableWelcomePage=no
-UninstallDisplayIcon={app}\WindowsLockPinSetup.exe
+UninstallDisplayIcon={app}\client\LivingUnlock.Windows.exe
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0.22000
@@ -40,7 +40,7 @@ SetupMutex=WindowsLockPin-Setup-Mutex
 Source: "..\build\WindowsLockPin.dll"; DestDir: "{app}"; Flags: ignoreversion restartreplace uninsrestartdelete
 Source: "..\build\WindowsLockPinSetup.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "README_INSTALL.txt"; DestDir: "{app}"; DestName: "安装说明.txt"; Flags: ignoreversion
-Source: "..\docs\OPERATIONS.md"; DestDir: "{app}"; DestName: "操作与恢复说明.md"; Flags: ignoreversion
+Source: "..\build\desktop-publish\*"; DestDir: "{app}\client"; Excludes: "*.pdb"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\THIRD_PARTY_NOTICES.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\third_party\qrcodegen\LICENSE.txt"; DestDir: "{app}\licenses\qrcodegen"; Flags: ignoreversion
 Source: "..\third_party\qrcodegen\UPSTREAM.md"; DestDir: "{app}\licenses\qrcodegen"; Flags: ignoreversion
@@ -54,12 +54,12 @@ Root: HKLM; Subkey: "SOFTWARE\Classes\CLSID\{{16B44968-DC91-4F41-BB1B-30D36B3F0B
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Providers\{{16B44968-DC91-4F41-BB1B-30D36B3F0BCE}"; ValueType: string; ValueName: ""; ValueData: "LivingUnlock"; Flags: uninsdeletekey
 
 [Icons]
-Name: "{group}\绑定 Google Authenticator"; Filename: "{app}\WindowsLockPinSetup.exe"
-Name: "{group}\操作与恢复说明"; Filename: "{app}\操作与恢复说明.md"
+Name: "{group}\LivingUnlock"; Filename: "{app}\client\LivingUnlock.Windows.exe"
+Name: "{group}\安装与恢复说明"; Filename: "{app}\安装说明.txt"
 Name: "{group}\卸载 LivingUnlock"; Filename: "{uninstallexe}"
 
 [Run]
-Filename: "{app}\WindowsLockPinSetup.exe"; Description: "绑定当前微软账户与 Google Authenticator"; Flags: postinstall nowait skipifsilent
+Filename: "{app}\client\LivingUnlock.Windows.exe"; Description: "打开 LivingUnlock 控制台"; Flags: postinstall nowait skipifsilent
 
 [Code]
 function InitializeSetup(): Boolean;

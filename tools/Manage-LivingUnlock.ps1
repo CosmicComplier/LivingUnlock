@@ -74,7 +74,9 @@ try {
             $fileAcl.SetSecurityDescriptorSddlForm('O:BAG:BAD:P(A;;FA;;;SY)(A;;FA;;;BA)')
             Set-Acl -LiteralPath $temp -AclObject $fileAcl
             if (Test-Path -LiteralPath $Destination) {
-                [IO.File]::Replace($temp, $Destination, $null)
+                # Windows PowerShell converts $null to an empty string for string parameters.
+                # File.Replace requires a real null when no backup filename is requested.
+                [IO.File]::Replace($temp, $Destination, [System.Management.Automation.Language.NullString]::Value)
             } else {
                 [IO.File]::Move($temp, $Destination)
             }
