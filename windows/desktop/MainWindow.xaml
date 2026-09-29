@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="LivingUnlock.Windows.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="LivingUnlock"
+    mc:Ignorable="d">
+
+    <Grid x:Name="WindowRoot" Background="{StaticResource ShellBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="AppTitleBar" Grid.Row="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#185A92" Offset="0" />
+                    <GradientStop Color="#1D4E82" Offset="0.55" />
+                    <GradientStop Color="#173A61" Offset="1" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="150" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="9" VerticalAlignment="Center" Margin="16,0,0,0">
+                <Image Source="Assets/livingunlock-icon.png" Width="22" Height="22" />
+                <TextBlock Text="LivingUnlock" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <TextBlock Text="•" Foreground="#75BFF7" VerticalAlignment="Center" />
+                <TextBlock Text="安全伴侣控制台" FontSize="11" Foreground="#B9D7ED" VerticalAlignment="Center" />
+            </StackPanel>
+            <TextBlock Grid.Column="1" Text="" />
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="12,12,12,12" ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="#E812191F" BorderBrush="#263E5363" BorderThickness="1" CornerRadius="12">
+                <Grid Padding="16,18,16,16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12" Margin="8,2,8,0">
+                        <Border Width="46" Height="46" CornerRadius="10" Background="#243E6688" BorderBrush="#6558C7FF" BorderThickness="1">
+                            <Image Source="Assets/livingunlock-icon.png" Width="40" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Spacing="2">
+                            <TextBlock Text="LivingUnlock" FontSize="17" FontWeight="SemiBold" />
+                            <TextBlock Text="Living Project" FontSize="11" Foreground="#7F91A2" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Spacing="8">
+                        <Button x:Name="HomeNavButton" Style="{StaticResource NavButtonStyle}" Click="OnHomeNavClicked">
+                            <Grid ColumnSpacing="14">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="28" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <FontIcon Glyph="&#xE80F;" FontSize="19" />
+                                <TextBlock Grid.Column="1" Text="主页" FontSize="15" VerticalAlignment="Center" />
+                            </Grid>
+                        </Button>
+                        <Button x:Name="AuthenticatorNavButton" Style="{StaticResource NavButtonStyle}" Click="OnAuthenticatorNavClicked">
+                            <Grid ColumnSpacing="14">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="28" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <FontIcon Glyph="&#xE72E;" FontSize="18" />
+                                <TextBlock Grid.Column="1" Text="Authenticator" FontSize="15" VerticalAlignment="Center" />
+                            </Grid>
+                        </Button>
+                        <Button x:Name="PhoneNavButton" Style="{StaticResource NavButtonStyle}" Click="OnPhoneNavClicked">
+                            <Grid ColumnSpacing="14">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="28" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <FontIcon Glyph="&#xE8EA;" FontSize="18" />
+                                <TextBlock Grid.Column="1" Text="Android 配对" FontSize="15" VerticalAlignment="Center" />
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="4" Spacing="12" Margin="8,0,8,4">
+                        <Border Background="#272E353B" BorderBrush="#364B5965" BorderThickness="1" CornerRadius="8" Padding="12,10">
+                            <Grid ColumnSpacing="10">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <Border Width="9" Height="9" CornerRadius="5" Background="{StaticResource SuccessBrush}" VerticalAlignment="Center" />
+                                <StackPanel Grid.Column="1" Spacing="1">
+                                    <TextBlock Text="本机保护服务" FontSize="12" FontWeight="SemiBold" />
+                                    <TextBlock Text="运行中" FontSize="11" Foreground="#73DDB0" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <TextBlock Text="本地处理 · 无需云账户" FontSize="11" Foreground="#71808F" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1" Background="#EB202930" BorderBrush="#34485D6C" BorderThickness="1" CornerRadius="12">
+                <Grid>
+                    <Image Source="Assets/bg_livingunlock.png" Stretch="UniformToFill" Opacity="0.075" />
+                    <Rectangle Fill="#C91D252C" />
+                    <Frame x:Name="RootFrame" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

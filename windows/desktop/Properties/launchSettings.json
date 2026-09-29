@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LivingUnlock.Windows (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "LivingUnlock.Windows (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

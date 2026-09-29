@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="LivingUnlock.Windows.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="Transparent"
+    Loaded="OnPageLoaded"
+    mc:Ignorable="d">
+
+    <ScrollViewer x:Name="PageScrollViewer" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" SizeChanged="OnScrollViewportSizeChanged">
+        <Grid x:Name="ContentHost">
+        <StackPanel x:Name="PageContent" HorizontalAlignment="Center" Margin="0,30,0,40" Spacing="20">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition FromVerticalOffset="18" IsStaggeringEnabled="True" />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+
+            <InfoBar x:Name="SaveInfoBar" IsOpen="False" IsClosable="True" Visibility="Collapsed" Closed="OnSaveInfoBarClosed" />
+
+            <Border x:Name="HeroPanel" Height="252" CornerRadius="12" BorderBrush="#3E416A89" BorderThickness="1">
+                <Grid>
+                    <Image Source="/Assets/bg_livingunlock.png" Stretch="UniformToFill" />
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#E7082548" Offset="0" />
+                                <GradientStop Color="#C80A2B56" Offset="0.56" />
+                                <GradientStop Color="#9A102C54" Offset="1" />
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Grid Margin="44,30,44,30">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="0.62*" /><ColumnDefinition Width="0.38*" /></Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="12">
+                            <Border Background="#4A168FE5" BorderBrush="#6E65CFFF" BorderThickness="1" CornerRadius="8" Padding="10,4" HorizontalAlignment="Left">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                    <Border Width="7" Height="7" CornerRadius="4" Background="#72F6BC" VerticalAlignment="Center" />
+                                    <TextBlock Text="本机安全通道已就绪" FontSize="11" FontWeight="SemiBold" />
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="LivingUnlock 控制台" FontSize="39" FontWeight="Light" />
+                            <TextBlock Text="为 Windows 账户绑定动态口令与手机生物识别。所有凭据均在本机处理，解锁核心保持独立运行。"
+                                       FontSize="14" Foreground="#C5D5E4" TextWrapping="Wrap" MaxWidth="590" />
+                            <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,6,0,0">
+                                <Border Background="#383E5366" CornerRadius="8" Padding="12,6">
+                                    <TextBlock x:Name="TxtComputerName" Text="THIS-PC" FontSize="12" FontWeight="SemiBold" />
+                                </Border>
+                                <Border Background="#383E5366" CornerRadius="8" Padding="12,6">
+                                    <TextBlock x:Name="TxtCurrentUsername" Text="Current user" FontSize="12" />
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Border x:Name="AccountPanel" Style="{StaticResource PanelCardStyle}">
+                <Grid ColumnSpacing="24">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="1.1*" /><ColumnDefinition Width="0.9*" /></Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Spacing="13">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <Border Width="32" Height="32" CornerRadius="9" Background="#263A9BEE">
+                                <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="15" Foreground="#67C7FF" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <StackPanel>
+                                <TextBlock Text="选择要保护的 Windows 账户" Style="{StaticResource SectionTitleStyle}" />
+                                <TextBlock Text="凭据仅用于现有本地保险库，不会传到手机。" Style="{StaticResource CaptionStyle}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Spacing="20" Margin="0,4,0,0">
+                            <RadioButton x:Name="RadioLocalUser" Content="本地用户" IsChecked="True" Checked="OnAccountTypeChanged" Foreground="{StaticResource TextBrush}" />
+                            <RadioButton x:Name="RadioMicrosoftAccount" Content="Microsoft 账户" Checked="OnAccountTypeChanged" Foreground="{StaticResource TextBrush}" />
+                        </StackPanel>
+
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                            <StackPanel Spacing="6">
+                                <TextBlock x:Name="LblUsername" Text="本地账户用户名" FontSize="12" Foreground="{StaticResource MutedTextBrush}" />
+                                <TextBox x:Name="TxtUsername" Style="{StaticResource InputTextBoxStyle}" PlaceholderText="输入当前用户名" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Spacing="6">
+                                <Grid>
+                                    <TextBlock Text="Windows 登录密码" FontSize="12" Foreground="{StaticResource MutedTextBrush}" VerticalAlignment="Center" />
+                                    <Button x:Name="BtnRevealPassword" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                            Background="Transparent" BorderThickness="0" Padding="6,2" CornerRadius="4"
+                                            Click="OnTogglePasswordRevealClicked">
+                                        <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+                                            <FontIcon x:Name="IconRevealPassword" Glyph="&#xE7B3;" FontFamily="Segoe MDL2 Assets" FontSize="12" Foreground="#8EB2D5" />
+                                            <TextBlock x:Name="TxtRevealPassword" Text="显示密码" FontSize="11" Foreground="#8EB2D5" />
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                                <PasswordBox x:Name="TxtPassword" Style="{StaticResource InputPasswordBoxStyle}" PlaceholderText="输入账户密码" PasswordRevealMode="Hidden" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <Border Grid.Column="1" Background="#353A4046" BorderBrush="#4B56616A" BorderThickness="1" CornerRadius="12" Padding="18">
+                        <Grid>
+                            <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" Spacing="9">
+                                <Border Width="9" Height="9" CornerRadius="5" Background="{StaticResource SuccessBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="账户绑定准备" FontWeight="SemiBold" />
+                            </StackPanel>
+                            <TextBlock Grid.Row="1" x:Name="AccountStateText" Text="录入当前账户密码后，即可选择下方任一绑定方式。"
+                                       Style="{StaticResource CaptionStyle}" VerticalAlignment="Center" />
+                            <Button Grid.Row="2" Content="保存蓝牙解锁凭据" Style="{StaticResource PrimaryButtonStyle}" HorizontalAlignment="Stretch" Click="OnSaveCredentialsClicked" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Grid ColumnSpacing="18">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+
+                <Border x:Name="UnlockModesCard" Grid.Column="0" Style="{StaticResource PanelCardStyle}" MinHeight="310">
+                    <StackPanel Spacing="15">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="解锁方式" Style="{StaticResource SectionTitleStyle}" />
+                            <TextBlock Text="当前账户在锁屏中可使用的方式" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <Border Background="#27333D45" BorderBrush="#3D52606A" BorderThickness="1" CornerRadius="9" Padding="14,12"
+                                Tapped="OnAuthModeTapped">
+                            <Grid ColumnSpacing="11">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="32" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                <FontIcon Glyph="&#xE72E;" FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="#6BD3FF" VerticalAlignment="Center" />
+                                <StackPanel Grid.Column="1" Spacing="2">
+                                    <TextBlock Text="Authenticator 动态码" FontWeight="SemiBold" />
+                                    <TextBlock Text="锁屏时输入 6 位验证码" Style="{StaticResource CaptionStyle}" />
+                                </StackPanel>
+                                <Border Grid.Column="2" Background="#333E4A54" CornerRadius="6" Padding="9,5" VerticalAlignment="Center">
+                                    <TextBlock x:Name="TxtAuthStatus" Text="检查中" FontSize="11" Foreground="#9EB0C0" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <Border Background="#27333D45" BorderBrush="#3D52606A" BorderThickness="1" CornerRadius="9" Padding="14,12"
+                                Tapped="OnPhoneModeTapped">
+                            <Grid ColumnSpacing="11">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="32" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                <FontIcon Glyph="&#xE8EA;" FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="#6BD3FF" VerticalAlignment="Center" />
+                                <StackPanel Grid.Column="1" Spacing="2">
+                                    <TextBlock Text="LivingUnlock Android" FontWeight="SemiBold" />
+                                    <TextBlock Text="手机生物识别确认解锁" Style="{StaticResource CaptionStyle}" />
+                                </StackPanel>
+                                <Border Grid.Column="2" Background="#333E4A54" CornerRadius="6" Padding="9,5" VerticalAlignment="Center">
+                                    <TextBlock x:Name="TxtPhoneStatus" Text="检查中" FontSize="11" Foreground="#9EB0C0" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <TextBlock Text="绑定或更换方式请点击卡片或使用左侧导航。" Style="{StaticResource CaptionStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="ManagementCard" Grid.Column="1" Style="{StaticResource PanelCardStyle}" MinHeight="310">
+                    <StackPanel Spacing="13">
+                        <Grid>
+                            <StackPanel Spacing="5">
+                                <TextBlock Text="解锁方式管理" Style="{StaticResource SectionTitleStyle}" />
+                                <TextBlock x:Name="ManagedStateText" Text="正在读取锁屏组件的启用状态…" Style="{StaticResource CaptionStyle}" />
+                            </StackPanel>
+                            <Button Content="刷新" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                    Style="{StaticResource GhostButtonStyle}" Click="OnRefreshStateClicked" />
+                        </Grid>
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                            <Button x:Name="BtnTogglePhone" Content="禁用蓝牙" Style="{StaticResource PrimaryButtonStyle}"
+                                    HorizontalAlignment="Stretch" IsEnabled="False" Click="OnTogglePhoneClicked" />
+                            <Button x:Name="BtnToggleAuth" Grid.Column="1" Content="禁用动态码" Style="{StaticResource PrimaryButtonStyle}"
+                                    HorizontalAlignment="Stretch" IsEnabled="False" Click="OnToggleAuthClicked" />
+                        </Grid>
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                            <Button x:Name="BtnRemovePhone" Content="卸载蓝牙" Style="{StaticResource SecondaryButtonStyle}"
+                                    HorizontalAlignment="Stretch" IsEnabled="False" Click="OnUnpairPhoneClicked" />
+                            <Button x:Name="BtnRemoveAuth" Grid.Column="1" Content="卸载动态码" Style="{StaticResource SecondaryButtonStyle}"
+                                    HorizontalAlignment="Stretch" IsEnabled="False" Click="OnRemoveAuthClicked" />
+                            <Button x:Name="BtnRemoveBoth" Grid.Column="2" Content="全部卸载" Style="{StaticResource SecondaryButtonStyle}"
+                                    HorizontalAlignment="Stretch" IsEnabled="False" Click="OnRemoveBothClicked" />
+                        </Grid>
+                        <TextBlock Text="禁用保留绑定，重新启用即可恢复；卸载后需要重新绑定。原生 PIN 始终保留。"
+                                   Style="{StaticResource CaptionStyle}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Border Style="{StaticResource PanelCardStyle}">
+                <StackPanel Spacing="10">
+                    <ToggleSwitch x:Name="LocationToggle" Header="登录时记录本次开机位置" Toggled="OnLocationToggled" />
+                    <TextBlock x:Name="LocationStatusText" Text="默认关闭。启用后将在登录时读取 Windows 位置，仅本地保存最近一次，并加密同步给已配对手机。" Style="{StaticResource CaptionStyle}" />
+                    <Button Content="打开 Windows 位置设置" Style="{StaticResource GhostButtonStyle}" Click="OnLocationSettingsClicked" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

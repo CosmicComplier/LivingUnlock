@@ -1,0 +1,25 @@
+#pragma code_page(65001)
+#include <windows.h>
+1 RT_MANIFEST "setup.manifest"
+101 DIALOGEX 0, 0, 525, 310
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "WindowsLockPin · 绑定手机验证码"
+FONT 9, "Microsoft YaHei UI"
+BEGIN
+    LTEXT "为当前 Windows 微软账户添加验证码解锁，原生 PIN 保留。扫码或手动输入密钥均可绑定。", -1, 12, 12, 500, 16
+    LTEXT "微软账户邮箱", -1, 12, 39, 75, 12
+    EDITTEXT 1001, 102, 36, 218, 17, ES_AUTOHSCROLL
+    LTEXT "账户密码（非 PIN）", -1, 12, 65, 82, 12
+    EDITTEXT 1002, 102, 62, 218, 17, ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT "Google Authenticator → 添加 → 扫描二维码。\n也可选择“输入设置密钥”，类型选“基于时间”。", -1, 12, 91, 308, 29
+    LTEXT "设置密钥", -1, 12, 130, 75, 12
+    EDITTEXT 1003, 102, 126, 218, 19, ES_READONLY | ES_AUTOHSCROLL
+    LTEXT "手机上的 6 位码", -1, 12, 159, 82, 12
+    EDITTEXT 1004, 102, 155, 90, 19, ES_NUMBER | ES_AUTOHSCROLL
+    LTEXT "密码只在本机验证并加密保存。二维码和设置密钥等价，请勿分享。", -1, 12, 187, 308, 28
+    LTEXT "", 1005, 12, 220, 308, 38
+    CONTROL "", 1006, "STATIC", SS_BITMAP | SS_CENTERIMAGE | WS_BORDER, 342, 36, 170, 170
+    LTEXT "", 1007, 342, 214, 170, 30, SS_CENTER
+    DEFPUSHBUTTON "验证并保存绑定", IDOK, 333, 280, 104, 18
+    PUSHBUTTON "取消", IDCANCEL, 445, 280, 67, 18
+END

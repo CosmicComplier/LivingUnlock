@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Used only to load HTTPS image/video URLs explicitly scanned by the user. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Bluetooth permissions for RFCOMM transport -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <!-- BLE advertising scan: RECEIVE_BOOT_COMPLETED to restart BLE scan after reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Camera for QR code pairing scanning -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Biometrics for user unlock confirmation -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+    <!-- Notifications for Android 13+ heads-up unlock prompt -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Foreground service for maintaining connectedDevice Bluetooth listener -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.fingerprint"
+        android:required="false" />
+
+    <application
+        android:name=".CompanionApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/ic_system_character"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_system_character"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.WindowsLockPinCompanion">
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize"
+            android:icon="@mipmap/ic_launcher"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="wslp" android:host="pair" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.LivingUnlockCaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            android:theme="@style/Theme.WindowsLockPinCompanion"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <service
+            android:name=".service.BluetoothUnlockService"
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice" />
+
+        <!-- Receives BLE scan results via PendingIntent (works even when app is killed) -->
+        <receiver
+            android:name=".bluetooth.BleScanReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.windowslockpin.companion.BLE_SCAN_RESULT" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Restarts BLE background scan after device reboot -->
+        <receiver
+            android:name=".bluetooth.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

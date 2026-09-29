@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="LivingUnlock.Windows.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Color x:Key="LivingBlue">#2498F3</Color>
+            <Color x:Key="LivingCyan">#5BD7FF</Color>
+            <Color x:Key="LivingInk">#F3F8FF</Color>
+            <Color x:Key="LivingMuted">#9EADBF</Color>
+            <Color x:Key="LivingShell">#172330</Color>
+            <Color x:Key="LivingRail">#121A22</Color>
+            <Color x:Key="LivingPanel">#292D32</Color>
+            <Color x:Key="LivingPanelRaised">#353A40</Color>
+            <Color x:Key="LivingStroke">#47515B</Color>
+            <Color x:Key="LivingSuccess">#68F5B2</Color>
+            <Color x:Key="LivingDanger">#FF7A91</Color>
+
+            <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource LivingBlue}" />
+            <SolidColorBrush x:Key="CyanBrush" Color="{StaticResource LivingCyan}" />
+            <SolidColorBrush x:Key="TextBrush" Color="{StaticResource LivingInk}" />
+            <SolidColorBrush x:Key="MutedTextBrush" Color="{StaticResource LivingMuted}" />
+            <SolidColorBrush x:Key="ShellBrush" Color="{StaticResource LivingShell}" />
+            <SolidColorBrush x:Key="RailBrush" Color="{StaticResource LivingRail}" />
+            <SolidColorBrush x:Key="PanelBrush" Color="{StaticResource LivingPanel}" />
+            <SolidColorBrush x:Key="PanelRaisedBrush" Color="{StaticResource LivingPanelRaised}" />
+            <SolidColorBrush x:Key="StrokeBrush" Color="{StaticResource LivingStroke}" />
+            <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource LivingSuccess}" />
+            <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource LivingDanger}" />
+            <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="#788695" />
+            <FontFamily x:Key="LivingFont">Segoe UI Variable Text</FontFamily>
+
+            <Style x:Key="BodyTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource LivingFont}" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            </Style>
+            <Style x:Key="PageTitleStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource LivingFont}" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                <Setter Property="FontSize" Value="30" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+            <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource LivingFont}" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+            <Style x:Key="CaptionStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource LivingFont}" />
+                <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
+            <Style x:Key="PanelCardStyle" TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource PanelBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource StrokeBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="Padding" Value="22" />
+            </Style>
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="20,11" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+            <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="#283F5264" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                <Setter Property="BorderBrush" Value="#6874848F" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="18,10" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+            </Style>
+            <Style x:Key="GhostButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="12,8" />
+            </Style>
+            <Style x:Key="NavButtonStyle" TargetType="Button">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="#B8C1CC" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="16,12" />
+                <Setter Property="FontSize" Value="15" />
+            </Style>
+            <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
+                <Setter Property="Background" Value="#2C333A" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                <Setter Property="BorderBrush" Value="#53606C" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="12,9" />
+            </Style>
+            <Style x:Key="InputPasswordBoxStyle" TargetType="PasswordBox">
+                <Setter Property="Background" Value="#2C333A" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                <Setter Property="BorderBrush" Value="#53606C" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="12,9" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

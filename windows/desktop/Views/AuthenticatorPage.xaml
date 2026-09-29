@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="LivingUnlock.Windows.Views.AuthenticatorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="Transparent"
+    Loaded="OnPageLoaded">
+
+    <ScrollViewer x:Name="PageScrollViewer" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" SizeChanged="OnScrollViewportSizeChanged">
+        <Grid x:Name="ContentHost">
+        <StackPanel x:Name="PageContent" HorizontalAlignment="Center" Margin="0,28,0,40" Spacing="20">
+            <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <Button Content="← 返回" Style="{StaticResource GhostButtonStyle}" Click="OnBackClicked" />
+                <StackPanel Grid.Column="1" Margin="16,0,0,0" Spacing="4">
+                    <TextBlock Text="绑定 Authenticator" Style="{StaticResource PageTitleStyle}" />
+                    <TextBlock Text="扫描二维码或使用密钥，将 LivingUnlock 添加到你的验证器。" Style="{StaticResource CaptionStyle}" />
+                </StackPanel>
+                <Border Grid.Column="2" Background="#303A444D" BorderBrush="#4A56626C" BorderThickness="1" CornerRadius="6" Padding="12,7" VerticalAlignment="Center">
+                    <TextBlock x:Name="TxtTargetAccount" Text="user" FontSize="12" Foreground="#78CFFF" />
+                </Border>
+            </Grid>
+
+            <Grid ColumnSpacing="18">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+
+                <Border x:Name="BindingPanel" Grid.Column="0" Style="{StaticResource PanelCardStyle}" MinHeight="540">
+                    <Grid>
+                        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+                        <Grid Background="#31363C" CornerRadius="8" Padding="5" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="145" /><ColumnDefinition Width="145" /></Grid.ColumnDefinitions>
+                            <Button x:Name="BtnQrMode" Content="扫码绑定" Background="#2498F3" Foreground="White" BorderThickness="0" CornerRadius="6" Padding="16,8" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Click="OnQrModeClicked" />
+                            <Button x:Name="BtnKeyMode" Grid.Column="1" Content="密钥绑定" Background="Transparent" Foreground="#A7B4C1" BorderThickness="0" CornerRadius="6" Padding="16,8" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Click="OnKeyModeClicked" />
+                        </Grid>
+
+                        <Grid Grid.Row="1" Margin="0,24,0,0">
+                            <StackPanel x:Name="QrModePanel" HorizontalAlignment="Center" Spacing="16">
+                                <TextBlock Text="使用手机验证器扫描" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                                <Grid Width="316" Height="316">
+                                    <Border Background="#F9FCFF" CornerRadius="12" Padding="18" BorderBrush="#5968CFFF" BorderThickness="2">
+                                        <Image x:Name="ImgQrCode" Width="280" Height="280" Stretch="Uniform" />
+                                    </Border>
+                                    <Border Width="40" Height="4" Background="#54C8FF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-4,10,0,0" />
+                                    <Border Width="4" Height="40" Background="#54C8FF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,-4,0,0" />
+                                    <Border Width="40" Height="4" Background="#54C8FF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-4,10" />
+                                    <Border Width="4" Height="40" Background="#54C8FF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,-4" />
+                                </Grid>
+                                <TextBlock Text="二维码只包含 TOTP 配置，不包含 Windows 密码。" Style="{StaticResource CaptionStyle}" HorizontalAlignment="Center" />
+                            </StackPanel>
+
+                            <StackPanel x:Name="KeyModePanel" Visibility="Collapsed" VerticalAlignment="Center" Spacing="20">
+                                <Border Background="#343B4248" BorderBrush="#4A5C6974" BorderThickness="1" CornerRadius="12" Padding="22">
+                                    <StackPanel Spacing="12">
+                                        <TextBlock Text="手动输入以下密钥" FontSize="16" FontWeight="SemiBold" />
+                                        <TextBlock Text="在验证器中选择“输入设置密钥”，账户名称可填写 LivingUnlock。" Style="{StaticResource CaptionStyle}" />
+                                        <Border Background="#111820" CornerRadius="8" Padding="16,14">
+                                            <TextBlock x:Name="TxtSecretDisplay" Text="XXXX XXXX XXXX" FontFamily="Consolas" FontSize="19" Foreground="#6BD3FF" TextWrapping="Wrap" />
+                                        </Border>
+                                        <StackPanel Orientation="Horizontal" Spacing="10">
+                                            <Button x:Name="BtnCopySecret" Content="复制密钥" Style="{StaticResource PrimaryButtonStyle}" Click="OnCopySecretClicked" />
+                                            <Button Content="重新生成" Style="{StaticResource SecondaryButtonStyle}" Click="OnRegenerateSecretClicked" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <StackPanel Grid.Column="1" Spacing="18">
+                    <Border x:Name="VerifyPanel" Style="{StaticResource PanelCardStyle}">
+                        <StackPanel Spacing="16">
+                            <Border Width="46" Height="46" CornerRadius="10" Background="#2531A4F4" HorizontalAlignment="Left">
+                                <FontIcon Glyph="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="#6BD3FF" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="验证并完成绑定" Style="{StaticResource SectionTitleStyle}" />
+                            <TextBlock Text="输入验证器当前显示的 6 位动态码。验证成功后，配置会写入现有本地保险库。" Style="{StaticResource CaptionStyle}" />
+                            <TextBox x:Name="TxtVerificationCode" Style="{StaticResource InputTextBoxStyle}" PlaceholderText="000000" MaxLength="6"
+                                     FontFamily="Consolas" FontSize="26" CharacterSpacing="300" HorizontalTextAlignment="Center" TextChanged="OnVerificationCodeChanged" />
+                            <Button x:Name="BtnVerifyAndSave" Content="验证并启用" Style="{StaticResource PrimaryButtonStyle}" HorizontalAlignment="Stretch" Click="OnVerifyAndSaveClicked" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource PanelCardStyle}" Background="#252A3035">
+                        <StackPanel Spacing="9">
+                            <TextBlock Text="绑定提示" FontWeight="SemiBold" />
+                            <TextBlock Text="• 手机与电脑时间需要保持同步&#x0a;• 动态码每 30 秒刷新&#x0a;• 原生 PIN 和密码登录始终保留"
+                                       Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <InfoBar x:Name="AuthResultBar" IsOpen="False" IsClosable="True" />
+        </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

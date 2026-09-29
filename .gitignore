@@ -1,0 +1,113 @@
+# Windows / Visual Studio C++ outputs
+/build/
+/dist/
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.map
+*.res
+*.tlog
+*.lastbuildstate
+*.VC.db
+*.VC.VC.opendb
+*.user
+*.suo
+.vs/
+
+# .NET / WinUI outputs
+**/bin/
+**/obj/
+TestResults/
+*.nupkg
+
+# Android / Gradle outputs and machine configuration
+/android/.gradle/
+/android/**/build/
+/android/local.properties
+/android/gradle_err.txt
+.idea/
+.kotlin/
+captures/
+*.hprof
+
+# Locally downloaded SDKs and toolchains
+/tools/dotnet/
+/tools/dotnet-install.ps1
+/downloads/
+/vspath.txt
+
+# Generated binaries and distribution archives
+*.apk
+*.aab
+*.exe
+*.dll
+*.msi
+*.msix
+*.appx
+*.appxbundle
+*.zip
+*.7z
+
+# Runtime data, deployment diagnostics and local test captures
+*.log
+*.dmp
+*.trace
+*.pending
+phone_S-1-5-*.dat*
+S-1-5-*.bin
+S-1-5-*.cred
+S-1-5-*.lock
+/artifacts/
+/.playwright-cli/
+/output/playwright/
+/output/eggs/
+/tools/deploy-dll.cmd
+/tools/read-provider-log.cmd
+/tools/Clean-ApprovedBuildArtifacts.ps1
+/tools/Set-PulseUnlockFirewall.ps1
+/tools/EggQrGenerator.ps1
+/tools/EggQrGenerator.cmd
+/tools/New-EggQr.ps1
+/docs/EGGS_AND_DEVICE_DETAILS.md
+
+# Secrets and signing material
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.pfx
+*.p12
+*.cer
+*.key
+*.pem
+keystore.properties
+/android/release-signing.properties
+/android/signing/
+
+# Local design exports and abandoned generated UI copies
+/design/generated/
+/windows-ui/
+
+# Internal handoff/debug notes containing machine-specific history
+/docs/ANDROID_AGENT_BRIEF.md
+/docs/ANDROID_AGENT_PHASE2.md
+/docs/MODIFICATIONS_SUMMARY.md
+/docs/PROJECT_HANDOFF.md
+/docs/PULSEUNLOCK_HANDOFF.md
+/docs/ANDROID_COMPANION.md
+/docs/DISTRIBUTION.md
+/docs/OPERATIONS.md
+/docs/VALIDATION.md
+/android/README.md
+/windows/README.md
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.tmp
+*~

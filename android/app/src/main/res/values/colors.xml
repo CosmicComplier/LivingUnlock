@@ -1,0 +1,32 @@
+<resources>
+    <color name="primary">#0088FF</color>
+    <color name="primary_dark">#0055B3</color>
+    <color name="accent">#00E5FF</color>
+    <color name="background">#F4F9FD</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="text_primary">#0A192F</color>
+    <color name="text_secondary">#4A6572</color>
+    <color name="warning_banner">#FFF3CD</color>
+    <color name="warning_text">#856404</color>
+    <color name="danger">#FF4D4F</color>
+
+    <!-- Ice Blue Branding -->
+    <color name="ice_blue_primary">#0088FF</color>
+    <color name="ice_blue_light">#5BC0FF</color>
+    <color name="ice_blue_dark">#0055B3</color>
+    <color name="cyan_accent">#00E5FF</color>
+    <color name="ice_blue_bg">#F4F9FD</color>
+    <color name="navy_primary">#0A192F</color>
+    <color name="card_border">#6600E5FF</color>
+
+    <!-- Scanner Custom Colors -->
+    <color name="scanner_mask">#700A192F</color>
+    <color name="scanner_corner">#00E5FF</color>
+    <color name="scanner_laser">#00E5FF</color>
+    <color name="scanner_frame_border">#3300E5FF</color>
+
+    <!-- App Icon & Deep Dark Theme -->
+    <color name="icon_background">#FFFFFF</color>
+    <color name="status_bar_navy">#0A192F</color>
+    <color name="window_dark_bg">#070E1A</color>
+</resources>

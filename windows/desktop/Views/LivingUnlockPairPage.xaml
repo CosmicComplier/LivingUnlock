@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="LivingUnlock.Windows.Views.LivingUnlockPairPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="Transparent"
+    Loaded="OnPageLoaded">
+
+    <ScrollViewer x:Name="PageScrollViewer" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" SizeChanged="OnScrollViewportSizeChanged">
+        <Grid x:Name="ContentHost">
+        <StackPanel x:Name="PageContent" HorizontalAlignment="Center" Margin="0,28,0,40" Spacing="20">
+            <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <Button Content="← 返回" Style="{StaticResource GhostButtonStyle}" Click="OnBackClicked" />
+                <StackPanel Grid.Column="1" Margin="16,0,0,0" Spacing="4">
+                    <TextBlock Text="绑定 LivingUnlock Android" Style="{StaticResource PageTitleStyle}" />
+                    <TextBlock Text="扫描一次，建立电脑与手机之间的本地蓝牙信任。" Style="{StaticResource CaptionStyle}" />
+                </StackPanel>
+                <Border Grid.Column="2" Background="#303A444D" BorderBrush="#4A56626C" BorderThickness="1" CornerRadius="6" Padding="12,7" VerticalAlignment="Center">
+                    <TextBlock x:Name="TxtTargetAccount" Text="user" FontSize="12" Foreground="#78CFFF" />
+                </Border>
+            </Grid>
+
+            <Grid ColumnSpacing="18">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+
+                <Border x:Name="PairingPanel" Grid.Column="0" Style="{StaticResource PanelCardStyle}" MinHeight="570">
+                    <StackPanel HorizontalAlignment="Center" Spacing="17">
+                        <StackPanel Orientation="Horizontal" Spacing="9" HorizontalAlignment="Center">
+                            <Border Width="9" Height="9" CornerRadius="5" Background="#63D2FF" VerticalAlignment="Center" />
+                            <TextBlock Text="本地配对二维码" FontSize="16" FontWeight="SemiBold" />
+                        </StackPanel>
+
+                        <Grid Width="342" Height="342">
+                            <ProgressRing x:Name="QrLoadingRing" Width="48" Height="48" IsActive="True" Foreground="#3FB8FF" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Border x:Name="QrContainer" Visibility="Collapsed" Background="#FBFDFF" CornerRadius="12" Padding="20" BorderBrush="#5967CFFF" BorderThickness="2">
+                                <Image x:Name="ImgQrCode" Width="300" Height="300" Stretch="Uniform" />
+                            </Border>
+                            <Border Width="46" Height="4" Background="#55D4FF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,12,0,0" />
+                            <Border Width="4" Height="46" Background="#55D4FF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,-5,0,0" />
+                            <Border Width="46" Height="4" Background="#55D4FF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-5,12" />
+                            <Border Width="4" Height="46" Background="#55D4FF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,12,-5" />
+                            <Border x:Name="SuccessOverlay" Visibility="Collapsed" Background="#E8122C3E" CornerRadius="12">
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="13">
+                                    <Border Width="68" Height="68" CornerRadius="34" Background="#2535D99B" BorderBrush="#7068F5B2" BorderThickness="2">
+                                        <FontIcon Glyph="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="30" Foreground="#68F5B2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <TextBlock Text="配对完成" FontSize="20" FontWeight="SemiBold" Foreground="#68F5B2" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Border Background="#343A4148" BorderBrush="#4C58636D" BorderThickness="1" CornerRadius="8" Padding="14,10" HorizontalAlignment="Stretch">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="9">
+                                <ProgressRing x:Name="PulseRing" Width="16" Height="16" IsActive="True" Foreground="#57C8FF" />
+                                <TextBlock x:Name="TxtPulsingStatus" Text="正在启动本地配对服务…" FontSize="12" Foreground="#79CDF7" />
+                            </StackPanel>
+                        </Border>
+
+                        <Grid Width="342">
+                            <TextBlock x:Name="TxtCountdown" Text="二维码有效期 180 秒" FontSize="11" Foreground="#8999A8" VerticalAlignment="Center" />
+                            <Button Content="刷新二维码" Style="{StaticResource GhostButtonStyle}" HorizontalAlignment="Right" Click="OnRefreshClicked" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Grid.Column="1" Spacing="18">
+                    <Border x:Name="GuidePanel" Style="{StaticResource PanelCardStyle}">
+                        <StackPanel Spacing="18">
+                            <TextBlock Text="在手机上完成绑定" Style="{StaticResource SectionTitleStyle}" />
+                            <TextBlock Text="打开 LivingUnlock Android，点击“扫码绑定设备”，对准左侧二维码。"
+                                       Style="{StaticResource CaptionStyle}" />
+
+                            <Grid RowSpacing="15" ColumnSpacing="14">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="34" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                <Border Width="30" Height="30" CornerRadius="15" Background="#2531A4F4"><TextBlock Text="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#6BD3FF" /></Border>
+                                <StackPanel Grid.Column="1"><TextBlock Text="打开手机端" FontWeight="SemiBold" /><TextBlock Text="确认蓝牙和相机权限已开启。" Style="{StaticResource CaptionStyle}" /></StackPanel>
+                                <Border Grid.Row="1" Width="30" Height="30" CornerRadius="15" Background="#2531A4F4"><TextBlock Text="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#6BD3FF" /></Border>
+                                <StackPanel Grid.Row="1" Grid.Column="1"><TextBlock Text="扫描二维码" FontWeight="SemiBold" /><TextBlock Text="二维码只在当前配对会话内有效。" Style="{StaticResource CaptionStyle}" /></StackPanel>
+                                <Border Grid.Row="2" Width="30" Height="30" CornerRadius="15" Background="#2531A4F4"><TextBlock Text="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#6BD3FF" /></Border>
+                                <StackPanel Grid.Row="2" Grid.Column="1"><TextBlock Text="确认设备" FontWeight="SemiBold" /><TextBlock Text="完成后电脑会显示已绑定设备名称。" Style="{StaticResource CaptionStyle}" /></StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="CardPairSuccess" Visibility="Collapsed" Background="#2732413B" BorderBrush="#5668F5B2" BorderThickness="1" CornerRadius="12" Padding="22">
+                        <StackPanel Spacing="12">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <FontIcon Glyph="&#xE73E;" FontFamily="Segoe MDL2 Assets" Foreground="#68F5B2" />
+                                <TextBlock Text="Android 伴侣已就绪" FontSize="17" FontWeight="SemiBold" Foreground="#68F5B2" />
+                            </StackPanel>
+                            <TextBlock x:Name="TxtSuccessDeviceName" Text="设备已绑定" Style="{StaticResource CaptionStyle}" />
+                            <Button Content="返回主页" Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Left" Click="OnBackClicked" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource PanelCardStyle}" Background="#252A3035">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="隐私说明" FontWeight="SemiBold" />
+                            <TextBlock Text="配对与解锁均通过本地蓝牙完成；Windows 密码不会发送到手机。" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <InfoBar x:Name="PairInfoBar" IsOpen="False" IsClosable="True" />
+        </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>
